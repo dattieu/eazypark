@@ -29,11 +29,11 @@ public class AppConfig {
     
     @Bean
     public LocaleResolver localeResolver(){
-		CookieLocaleResolver resolver = new CookieLocaleResolver();
-		resolver.setDefaultLocale(new Locale("en"));
-		resolver.setCookieName("myLocaleCookie");
-		resolver.setCookieMaxAge(4800);
-		return resolver;
+    	CookieLocaleResolver resolver = new CookieLocaleResolver();
+    	resolver.setDefaultLocale(new Locale("en"));
+    	resolver.setCookieName("myLocaleCookie");
+    	resolver.setCookieMaxAge(4800);
+    	return resolver;
     }
     
     @Bean
@@ -42,9 +42,9 @@ public class AppConfig {
     }
     
     public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("mylocale");
-		registry.addInterceptor(interceptor);
+    	LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+    	interceptor.setParamName("mylocale");
+    	registry.addInterceptor(interceptor);
     }
     
 }

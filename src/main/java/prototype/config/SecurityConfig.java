@@ -21,26 +21,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String REALM = "EAZY_PARK";
 	
 	@Autowired
-    @Qualifier("userDetailsService")
-    UserDetailsService userDetailsService;
+	@Qualifier("userDetailsService")
+	UserDetailsService userDetailsService;
 	
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-        auth.authenticationProvider(authenticationProvider());
-    }
+	@Autowired
+	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
+		auth.authenticationProvider(authenticationProvider());
+	}
     
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
-	    DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-	    authenticationProvider.setUserDetailsService(userDetailsService);
-	    authenticationProvider.setPasswordEncoder(passwordEncoder());
-	    return authenticationProvider;
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		return authenticationProvider;
 	}
 	
-    @Bean
+	@Bean
 	public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
     
 	@Bean

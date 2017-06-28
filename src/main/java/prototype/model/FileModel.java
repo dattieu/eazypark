@@ -9,12 +9,12 @@ public class FileModel {
     public FileModel() {};
      
     public FileModel(MultipartFile file) {
-		super();
+    	super();
 		this.file = file;
-	}
+    }
 
-	public MultipartFile getFile() {
-        return file;
+    public MultipartFile getFile() {
+    	return file;
     }
  
     public void setFile(MultipartFile file) {

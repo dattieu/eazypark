@@ -35,7 +35,7 @@ public class Vehicle extends PropertyEntity implements Serializable {
 	private String plateNumber;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "payment_id")
+	@PrimaryKeyJoinColumn(name = "payment_id")
 	private Payment payment;
 	
 	@ManyToOne

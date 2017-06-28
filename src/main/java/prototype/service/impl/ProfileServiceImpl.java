@@ -23,10 +23,10 @@ public class ProfileServiceImpl extends GenericServiceImpl<Profile, Integer> imp
 	private final ProfileDao profileDao;
 
 	@Autowired
-    public ProfileServiceImpl(@Autowired GenericDao<Profile, Integer> genericDao) {
+	public ProfileServiceImpl(@Autowired GenericDao<Profile, Integer> genericDao) {
 		super(genericDao);
-        this.profileDao = (ProfileDao) genericDao;
-    }
+		this.profileDao = (ProfileDao) genericDao;
+	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void changePhoto(int profileId, String fileName, MultipartFile photo) throws IOException {

@@ -21,11 +21,11 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-    public UserServiceImpl(@Autowired GenericDao<User, String> genericDao, PasswordEncoder passwordEncoder) {
+	public UserServiceImpl(@Autowired GenericDao<User, String> genericDao, PasswordEncoder passwordEncoder) {
 		super(genericDao);
-        this.userDao = (UserDao) genericDao;
-        this.passwordEncoder = passwordEncoder;
-    }
+		this.userDao = (UserDao) genericDao;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public boolean login(User user) {

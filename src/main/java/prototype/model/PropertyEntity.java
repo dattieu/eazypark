@@ -15,8 +15,8 @@ public class PropertyEntity extends BaseEntity implements Serializable {
 	
 	@NotEmpty
 	@Email
-    @Column(name = "owner", nullable = false, unique = true)
-    private String owner;
+	@Column(name = "owner", nullable = false, unique = true)
+	private String owner;
 
 	public String getOwner() {
 		return owner;

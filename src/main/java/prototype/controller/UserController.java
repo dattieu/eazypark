@@ -29,7 +29,7 @@ public class UserController {
 	@PostMapping(LOGIN)
 	public boolean login(@RequestBody @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
-            return false;
+			return false;
 		}
 		return userService.login(user);
 	}
@@ -38,7 +38,7 @@ public class UserController {
 	public boolean registerNewUser(@RequestBody @Valid User user, BindingResult result) {
 		// TODO what should be returned here? boolean or void and throw exception instead
 		if(result.hasErrors()) {
-            return false;
+			return false;
 		}
 		userService.register(user);
 		return true;

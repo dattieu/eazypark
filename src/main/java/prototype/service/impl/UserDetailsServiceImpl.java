@@ -24,10 +24,15 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	private static final boolean CREDENTIALS_NON_EXPIRED = true;
 	private static final boolean ACCOUNT_NON_LOCKED = true;
 	
+    private final UserService userService;
+    
     @Autowired
-    private UserService userService;
-     
-    @Transactional(readOnly = true)
+    public UserDetailsServiceImpl(UserService userService) {
+		super();
+		this.userService = userService;
+	}
+
+	@Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.getByKey("email", email);
   

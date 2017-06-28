@@ -17,10 +17,10 @@ public class VehicleServiceImpl extends GenericServiceImpl<Vehicle, String> impl
 
     private final VehicleDao vehicleDao;
 
-	@Autowired
+    @Autowired
     public VehicleServiceImpl(@Autowired GenericDao<Vehicle, String> genericDao) {
-		super(genericDao);
-        this.vehicleDao = (VehicleDao) genericDao;
+    	super(genericDao);
+    	this.vehicleDao = (VehicleDao) genericDao;
     }
 	
 	@Transactional(propagation = Propagation.REQUIRED)

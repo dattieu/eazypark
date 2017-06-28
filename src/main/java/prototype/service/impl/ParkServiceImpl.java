@@ -25,10 +25,10 @@ public class ParkServiceImpl extends GenericServiceImpl<Park, String> implements
 	private static final double NEAREST_PARK_RADIUS = 1.0;
 	
 	@Autowired
-    public ParkServiceImpl(@Autowired GenericDao<Park, String> genericDao) {
+	public ParkServiceImpl(@Autowired GenericDao<Park, String> genericDao) {
 		super(genericDao);
-        this.parkDao = (ParkDao) genericDao;
-    }
+		this.parkDao = (ParkDao) genericDao;
+	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void register(Park park) {

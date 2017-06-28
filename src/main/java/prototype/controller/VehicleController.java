@@ -29,7 +29,7 @@ public class VehicleController {
 		// REVIEW client have to do payment as soon as registering new vehicle or else what is the whole point to do that?
 		// TODO what should be returned here? boolean or void and throw exception instead
 		if(result.hasErrors()) {
-            return false;
+			return false;
 		}
 		vehicleService.register(vehicle);
 		return true;

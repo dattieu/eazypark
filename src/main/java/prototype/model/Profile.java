@@ -19,7 +19,7 @@ public class Profile extends BaseEntity implements Serializable {
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-    @Column(name = "joining_date")
+	@Column(name = "joining_date")
 	private Date joiningDate;
 	
 	@Column(name = "photo")

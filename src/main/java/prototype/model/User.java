@@ -24,12 +24,12 @@ public class User extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Email
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+	@Column(name = "email", nullable = false, unique = true)
+	private String email;
 
 	@NotEmpty
-    @Column(name = "password", nullable = false)
-    private String password;
+	@Column(name = "password", nullable = false)
+	private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

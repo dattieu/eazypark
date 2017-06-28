@@ -23,8 +23,8 @@ import prototype.service.VehicleService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ScannerServiceImpl implements ScannerService {
 
-    private final PaymentService paymentService;
-    private final VehicleService vehicleService;
+	private final PaymentService paymentService;
+	private final VehicleService vehicleService;
 	private final ParkService parkService;
 	
 	@Autowired

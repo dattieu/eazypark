@@ -18,37 +18,37 @@ import prototype.dao.GenericDao;
 public abstract class GenericDaoImpl<T, V extends Serializable> implements GenericDao<T, V> {
 
 	@Autowired
-    private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
 	protected Class<? extends T> classType;
    
 	public GenericDaoImpl() {
-        ParameterizedType paramType = (ParameterizedType) getClass().getGenericSuperclass();
-        classType = (Class<? extends T>) paramType.getActualTypeArguments()[0];
-    }
+		ParameterizedType paramType = (ParameterizedType) getClass().getGenericSuperclass();
+		classType = (Class<? extends T>) paramType.getActualTypeArguments()[0];
+	}
 
     protected Session getSession() {
         return sessionFactory.getCurrentSession();
     }
     
     protected Criteria getCriteria() {
-		return getSession().createCriteria(classType);
-	}
+    	return getSession().createCriteria(classType);
+    }
     
-	public List<T> getAll() {
-	    return getCriteria().list();
-	}
-	
-	// a.k.a getByEntityProperty
-	public T getByKey(final String key, final V value) {
-		return (T) getCriteria().add(Restrictions.eq(key, value)).uniqueResult();
+    public List<T> getAll() {
+    	return getCriteria().list();
     }
 	
-	public T getById(int id) {
-		return (T) getSession().get(classType, id);
-	}
+	// a.k.a getByEntityProperty
+    public T getByKey(final String key, final V value) {
+    	return (T) getCriteria().add(Restrictions.eq(key, value)).uniqueResult();
+    }
 	
-	public void save(final T object) {
+    public T getById(int id) {
+		return (T) getSession().get(classType, id);
+    }
+	
+    public void save(final T object) {
     	getSession().persist(object);
     }
 
@@ -56,8 +56,8 @@ public abstract class GenericDaoImpl<T, V extends Serializable> implements Gener
     	getSession().delete(object);
     }
 
-    public void update(final T object) {
-    	getSession().saveOrUpdate(object);
-    }
+	public void update(final T object) {
+		getSession().saveOrUpdate(object);
+	}
 
 }

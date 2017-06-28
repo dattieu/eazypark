@@ -149,8 +149,8 @@ public class Park extends PropertyEntity implements Serializable {
 	
 	public List<Vehicle> getVehicleList() {
 		List<Vehicle> sortedVehicleList = new ArrayList<Vehicle>(getVehicleListInternal());
-        PropertyComparator.sort(sortedVehicleList, new MutableSortDefinition("park_id", true, true));
-        return Collections.unmodifiableList(sortedVehicleList);
+		PropertyComparator.sort(sortedVehicleList, new MutableSortDefinition("park_id", true, true));
+		return Collections.unmodifiableList(sortedVehicleList);
 	}
 
 	public void addVehicle(Vehicle vehicle) {
@@ -165,7 +165,7 @@ public class Park extends PropertyEntity implements Serializable {
 	}
 
 	public Vehicle getVehicle(String plateNumber) {
-        for (Vehicle vehicle : getVehicleListInternal()) {
+		for (Vehicle vehicle : getVehicleListInternal()) {
         	if(vehicle.getPlateNumber().equals(plateNumber)) {
         		return vehicle;
         	}
@@ -194,8 +194,8 @@ public class Park extends PropertyEntity implements Serializable {
 	
 	public List<Review> getReviewList() {
 		List<Review> sortedReviewList = new ArrayList<Review>(getReviewListInternal());
-        PropertyComparator.sort(sortedReviewList, new MutableSortDefinition("owner", true, true));
-        return Collections.unmodifiableList(sortedReviewList);
+		PropertyComparator.sort(sortedReviewList, new MutableSortDefinition("owner", true, true));
+		return Collections.unmodifiableList(sortedReviewList);
 	}
 	
 	public void addReview(Review review) {

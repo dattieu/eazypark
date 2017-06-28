@@ -30,9 +30,9 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	}
 
 	@Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 		MultipartConfigElement multipartConfigElement = new MultipartConfigElement(LOCATION, MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
-        registration.setMultipartConfig(multipartConfigElement);
-    }
+		registration.setMultipartConfig(multipartConfigElement);
+	}
    
 }
