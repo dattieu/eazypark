@@ -32,26 +32,26 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		this.userService = userService;
 	}
 
-	@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.getByKey("email", email);
+    	User user = userService.getByKey("email", email);
   
-        if(user == null){
-            throw new UsernameNotFoundException("Username not found");
-        }
+    	if(user == null){
+    		throw new UsernameNotFoundException("Username not found");
+    	}
         
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), 
-        		ENABLE, ACCOUNT_NON_EXPIRED, CREDENTIALS_NON_EXPIRED, ACCOUNT_NON_LOCKED, getGrantedAuthorities(user));
+    	return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), 
+    			ENABLE, ACCOUNT_NON_EXPIRED, CREDENTIALS_NON_EXPIRED, ACCOUNT_NON_LOCKED, getGrantedAuthorities(user));
     }
  
     private List<GrantedAuthority> getGrantedAuthorities(User user){
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
          
-        for(Role role : user.getRoles()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-        }
+    	for(Role role : user.getRoles()){
+    		authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+    	}
         
-        return authorities;
+    	return authorities;
     }
      
 }

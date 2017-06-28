@@ -15,11 +15,11 @@ import prototype.service.UserService;
 
 @RestController
 public class UserController {
-
-	private final UserService userService;
 	
 	private static final String LOGIN = "/login";
 	private static final String USERS = "/users";
+	
+	private final UserService userService;
 	
 	@Autowired
 	public UserController(UserService userService) {

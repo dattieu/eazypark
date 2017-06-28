@@ -14,10 +14,10 @@ import prototype.service.VehicleService;
 
 @RestController
 public class VehicleController {
-
-	private final VehicleService vehicleService;
 	
 	private static final String VEHICLE = "/vehicles";
+
+	private final VehicleService vehicleService;
 	
 	public VehicleController(VehicleService vehicleService) {
 		this.vehicleService = vehicleService;
@@ -37,6 +37,7 @@ public class VehicleController {
 	
 	@GetMapping(VEHICLE)
 	public Vehicle getVehicle(@RequestParam(value = "plateNumber", required = true) String plateNumber) {
+		// TODO how to do validation here
 		// TODO handle null object? -> Null object pattern? or throw exception? where? service or DAO layer or here?
 		return vehicleService.getByKey("plateNumber", plateNumber);
 	}

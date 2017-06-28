@@ -29,14 +29,15 @@ public class ProfileServiceImpl extends GenericServiceImpl<Profile, Integer> imp
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void changePhoto(int profileId, String fileName, MultipartFile photo) throws IOException {
+	public void changePhoto(int profileId, MultipartFile photo) throws IOException {
 		
 		Profile profile = profileDao.getByKey("id", profileId);
 		if(profile == null) {
 			throw new EntityNotFoundException("Profile of user with id " + profileId + " not found");
 		}
 		
-		// TODO set directory path for photo files
+		// TODO see how to save uploaded multipart files for Spring MVC
+		String fileName = photo.getOriginalFilename();
 		profile.setPhoto(fileName);
 		profileDao.update(profile);
 		

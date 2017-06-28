@@ -18,16 +18,16 @@ public class BaseEntity implements Serializable {
 	@Column(name = "id", nullable = false)
 	private Integer id;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public boolean isNew() {
-        return this.id == null;
-    }
+	public boolean isNew() {
+		return this.id == null;
+	}
 
 }

@@ -11,9 +11,9 @@ import prototype.service.ScannerService;
 @RestController
 public class ScannerController {
 
-	private final ScannerService scannerService;
-	
 	private static final String SCANNER = "/checkins/{parkId}";
+	
+	private final ScannerService scannerService;
 	
 	@Autowired
 	public ScannerController(ScannerService scannerService) {
@@ -21,6 +21,7 @@ public class ScannerController {
 	}
 	
 	// REVIEW client's QR code (plate number) is scanned from the application device and sent to back end.
+	// TODO validation here
 	@GetMapping(SCANNER)
 	public void scanVehicleCode(@RequestParam(value = "plateNumber", required = true) String plateNumber, 
 			@PathVariable("parkId") String parkId) {

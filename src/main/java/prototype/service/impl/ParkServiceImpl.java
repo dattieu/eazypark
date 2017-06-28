@@ -19,10 +19,10 @@ import prototype.util.Haversine;
 
 @Service("parkService")
 public class ParkServiceImpl extends GenericServiceImpl<Park, String> implements ParkService {
-
-	private final ParkDao parkDao;
 	
 	private static final double NEAREST_PARK_RADIUS = 1.0;
+
+	private final ParkDao parkDao;
 	
 	@Autowired
 	public ParkServiceImpl(@Autowired GenericDao<Park, String> genericDao) {

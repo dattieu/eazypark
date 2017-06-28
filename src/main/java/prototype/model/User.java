@@ -31,15 +31,15 @@ public class User extends BaseEntity implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "profile_id")
-    private Profile profile;
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn(name = "profile_id")
+	private Profile profile;
 
-    public User(){};
+	public User(){};
 
 	public User(String email, String password, Set<Role> roles, Profile profile) {
 		super();
