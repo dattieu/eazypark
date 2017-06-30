@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan({ "prototype.config" })
 @PropertySource(value = { "classpath:database.properties" })
-public class HibernateConfig {
+public class DatabaseConfig {
  
     @Autowired
     private Environment environment;

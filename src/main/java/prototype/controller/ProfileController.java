@@ -36,7 +36,6 @@ public class ProfileController {
     } 
 	
 	// REVIEW because user and profile are primary key shared, profileId = userId
-	// REVIEW how to test this e.g, with Postman?
 	@PostMapping(PHOTO_CHANGE)
 	public void changeUserPhoto(@PathVariable(value = "userId") int profileId, 
 			@Valid FileModel photoModel, BindingResult result) throws IOException, FileUploadException {

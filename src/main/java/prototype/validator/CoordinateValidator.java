@@ -9,7 +9,7 @@ import prototype.model.Coordinate;
 @Component
 public class CoordinateValidator implements Validator {
 	
-	private static final String INVALID = "invalid";
+	private static final String INVALID_VALUE = "invalid";
 
 	public boolean supports(Class<?> clazz) {
 		return Coordinate.class.equals(clazz);
@@ -21,11 +21,11 @@ public class CoordinateValidator implements Validator {
 		double longitude = coordinate.getLongitude();
 		
 		if(latitude < -90 || latitude > 90) {
-			errors.rejectValue("latitude", INVALID);
+			errors.rejectValue("latitude", INVALID_VALUE);
 		}
 		
 		if(longitude < -180 || longitude > 180) {
-			errors.rejectValue("longitude", INVALID);
+			errors.rejectValue("longitude", INVALID_VALUE);
 		}
 	}
 
