@@ -1,6 +1,8 @@
 package prototype.service.impl;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -51,6 +54,18 @@ public class ProfileServiceImpl extends GenericServiceImpl<Profile, Integer> imp
 		
 		profile.setPhoto(photoFileName);
 		profileDao.update(profile);	
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public byte[] getPhoto(int profileId) throws IOException {
+		Profile profile = profileDao.getById(profileId);
+		if(profile == null) {
+			throw new EntityNotFoundException("Profile " + profileId + " not found");
+		}
+		
+		String photoFileAbsolutePath = Paths.get(environment.getRequiredProperty("image.upload.location"), profile.getPhoto()).toString();
+		InputStream in = new FileInputStream(photoFileAbsolutePath);
+		return IOUtils.toByteArray(in);
 	}
 	
 }

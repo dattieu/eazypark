@@ -1,13 +1,13 @@
 package prototype.controller;
 
 import java.io.IOException;
-
 import javax.validation.Valid;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ import prototype.validator.PhotoValidator;
 @RestController
 public class ProfileController {
 	
-	private static final String PHOTO_CHANGE = "profiles/photos/{userId}";
+	private static final String PROFILE_PHOTO = "profiles/photos/{userId}";
 	
 	protected final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 
@@ -33,7 +33,7 @@ public class ProfileController {
 		this.photoValidator = photoValidator;
 	}
 	
-	@PostMapping(PHOTO_CHANGE)
+	@PostMapping(PROFILE_PHOTO)
 	public void changeUserPhoto(@PathVariable(value = "userId") int profileId, 
 			@Valid @ModelAttribute("photo") FileModel photoFileModel, BindingResult result) throws IOException, FileUploadException {	
 		
@@ -43,5 +43,10 @@ public class ProfileController {
 		}
 		profileService.changePhoto(profileId, photoFileModel.getFile());
 	}
+	
+	@GetMapping(PROFILE_PHOTO)
+	public byte[] getProfilePhoto(@PathVariable(value = "userId") int profileId) throws IOException {
+		return profileService.getPhoto(profileId);
+	} 
 	
 }

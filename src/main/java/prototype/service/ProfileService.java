@@ -9,5 +9,6 @@ import prototype.model.Profile;
 public interface ProfileService extends GenericService<Profile, Integer> {
 	
 	void changePhoto(int profileId, MultipartFile photo) throws IOException;
+	byte[] getPhoto(int profileId) throws IOException;
 	
 }
