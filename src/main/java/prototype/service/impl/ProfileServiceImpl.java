@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -37,17 +38,16 @@ public class ProfileServiceImpl extends GenericServiceImpl<Profile, Integer> imp
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void changePhoto(int profileId, MultipartFile photo) throws IOException {
-		
-		Profile profile = profileDao.getByKey("id", profileId);
+		Profile profile = profileDao.getById(profileId);
 		if(profile == null) {
-			throw new EntityNotFoundException("Profile of user with id " + profileId + " not found");
+			throw new EntityNotFoundException("Profile " + profileId + " not found");
 		}
 		
 		// REVIEW Path only works with Java 7 or higher
 		// REVIEW need a basic image file system server? UUID for file name?
 		String photoFileName = Integer.toString(profileId).concat(photo.getOriginalFilename());
-		Path photoFile = Paths.get(environment.getRequiredProperty("image.upload.location"), photoFileName);
-		Files.copy(photo.getInputStream(), photoFile);
+		Path photoFilePathInDb = Paths.get(environment.getRequiredProperty("image.upload.location"), photoFileName);
+		Files.copy(photo.getInputStream(), photoFilePathInDb, StandardCopyOption.REPLACE_EXISTING);
 		
 		profile.setPhoto(photoFileName);
 		profileDao.update(profile);	

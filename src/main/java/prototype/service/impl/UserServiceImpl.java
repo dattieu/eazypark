@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import prototype.dao.GenericDao;
 import prototype.dao.UserDao;
+import prototype.model.Profile;
 import prototype.model.User;
 import prototype.service.UserService;
 
@@ -47,7 +48,9 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 			throw new EntityExistsException("User email " + loginEmail + " already exists");
 		}
 		
+		// REVIEW need to set Roles here? is it good to use the 'new' constructor here?
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setProfile(new Profile());
 		userDao.save(user);
 	}
 

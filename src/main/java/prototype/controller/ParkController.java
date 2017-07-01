@@ -53,7 +53,6 @@ public class ParkController {
 	
 	@GetMapping(NEAREST_PARK)
 	// REVIEW request parameters will be wired automatically to the object if omit @RequestParam
-	// REVIEW but how it knows what parameter describes what? by order?
 	// REVIEW pattern: /nearest_parks?latitude=0&longitude=0
 	public List<Park> getNearParks(@Valid Coordinate userLocation, BindingResult result) {
 		// REVIEW coordinate validation

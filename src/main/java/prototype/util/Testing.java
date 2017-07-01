@@ -55,16 +55,17 @@ public class Testing {
 //			e.printStackTrace();
 //		}
 		
-		Path src = Paths.get("E:/workspace", "dat.txt");
-		Path dest = Paths.get("E:/workspace/", "test2.txt");
-		try {
-			Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
-			System.out.println(src.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Path src = Paths.get("E:/workspace", "dat.txt");
+//		Path dest = Paths.get("E:/workspace/", "test2.txt");
+//		try {
+//			Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
+//			System.out.println(src.toString());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
+		System.out.println(System.getProperty("java.io.tmpdir"));
 	}
 	
 }
