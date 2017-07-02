@@ -55,4 +55,8 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 		return userDao.getByKey("email", user.getEmail()) == null;
 	}
 
+	public void changePassword(String newPassword) {
+		// TODO Auto-generated method stub
+	}
+
 }

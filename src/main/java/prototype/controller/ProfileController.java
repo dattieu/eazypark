@@ -36,7 +36,7 @@ public class ProfileController {
 	}
 	
 	@PostMapping(PROFILE_PHOTO)
-	public void changeUserPhoto(@PathVariable(value = "userId") int profileId, 
+	public void changeProfilePhoto(@PathVariable(value = "userId") int profileId, 
 			@Valid @ModelAttribute("photo") FileModel photoFileModel, BindingResult result) throws IOException, FileUploadException {	
 		photoValidator.validate(photoFileModel, result);
 		if(result.hasErrors()) {
@@ -46,6 +46,7 @@ public class ProfileController {
 	}
 	
 	@GetMapping(PROFILE_PHOTO)
+	//TODO need testing
 	public byte[] getProfilePhoto(@PathVariable(value = "userId") int profileId) throws IOException {
 		return profileService.getPhoto(profileId);
 	} 

@@ -3,6 +3,8 @@ package prototype.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ public class UserController {
 	
 	private static final String LOGIN = "/login";
 	private static final String USERS = "/users";
+	private static final String PASSWORD_CHANGE = "/password_change";
 	
 	private final UserService userService;
 	
@@ -28,11 +31,12 @@ public class UserController {
 	}
 	
 	@PostMapping(LOGIN)
-	public boolean login(@RequestBody @Valid User user, BindingResult result) {
+	public ResponseEntity<String> login(@RequestBody @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_USER);
 		}
-		return userService.login(user);
+		return (userService.login(user) == true) ? ResponseEntity.status(HttpStatus.OK).body(Constant.LOGIN_SUCCESS)
+												 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Constant.INVALID_CREDENTIALS);
 	}
 	
 	@PostMapping(USERS)
@@ -48,6 +52,11 @@ public class UserController {
 		// TODO handle null object? -> Null object pattern? or throw exception? where? service or DAO layer or here?
 		// REVIEW only admin can get this (need to start Spring Security and do some obsfucation work here)
 		return userService.getByKey("email", email);
+	}
+	
+	@PostMapping(PASSWORD_CHANGE)
+	public void changeUserPassword() {
+		// TODO how client should send password over network? how to do secutiry here? 
 	}
 	
 }

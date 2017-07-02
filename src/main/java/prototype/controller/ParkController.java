@@ -37,6 +37,7 @@ public class ParkController {
 	@PostMapping(PARK)
 	public void registerNewPark(@RequestBody @Valid Park park, BindingResult result) {
 		// REVIEW do both bean validation via annotation and Spring validation
+		// TODO need testing
 		coordinateValidator.validate(park.getCoordinate(), result);
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_PARK);

@@ -21,10 +21,10 @@ public class ScannerController {
 	}
 	
 	// REVIEW client's QR code (plate number) is scanned from the application device and sent to back end.
-	// TODO validation here
+	// TODO need testing and some validation work here
 	@GetMapping(SCANNER)
 	public void scanVehicleCode(@RequestParam(value = "plateNumber", required = true) String plateNumber, 
-			@PathVariable("parkId") String parkId) {
+								@PathVariable("parkId") String parkId) {
 		scannerService.scan(plateNumber, parkId);
 	}
 	
