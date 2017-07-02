@@ -25,15 +25,15 @@ public class GlobalExceptionHandler {
 		logger.error(exception);
 	}
 	
-	@ResponseStatus(value = HttpStatus.UNSUPPORTED_MEDIA_TYPE, reason = Constant.FILE_UPLOAD_ERROR)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = Constant.FILE_UPLOAD_ERROR)
 	@ExceptionHandler(FileUploadException.class)
 	public void handleFileUploadError(FileUploadException exception) {
 		logger.error(exception);
 	}
 	
-	@ResponseStatus(value = HttpStatus.CONFLICT, reason = Constant.UNABLE_TO_REGISTER)
+	@ResponseStatus(value = HttpStatus.CONFLICT, reason = Constant.RESOURCE_ALREADY_EXIST)
 	@ExceptionHandler(EntityExistsException.class)
-	public void handleUnableToRegister(EntityExistsException exception) {
+	public void handleConflictWithExistingResource(EntityExistsException exception) {
 		logger.error(exception);
 	}
 	

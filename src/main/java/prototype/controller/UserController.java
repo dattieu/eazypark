@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import prototype.constant.Constant;
 import prototype.model.User;
 import prototype.service.UserService;
 
@@ -29,19 +30,17 @@ public class UserController {
 	@PostMapping(LOGIN)
 	public boolean login(@RequestBody @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
-			return false;
+			throw new IllegalArgumentException(Constant.INVALID_USER);
 		}
 		return userService.login(user);
 	}
 	
 	@PostMapping(USERS)
-	public boolean registerNewUser(@RequestBody @Valid User user, BindingResult result) {
-		// TODO what should be returned here? boolean or void and throw exception instead
+	public void registerNewUser(@RequestBody @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
-			return false;
+			throw new IllegalArgumentException(Constant.INVALID_USER);
 		}
 		userService.register(user);
-		return true;
 	}
 	
 	@GetMapping(USERS)

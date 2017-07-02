@@ -25,13 +25,14 @@ public class VehicleServiceImpl extends GenericServiceImpl<Vehicle, String> impl
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void register(Vehicle vehicle) {
-		String registeringPlateNumber = vehicle.getPlateNumber();
-		Vehicle dbVehicle = vehicleDao.getByKey("plateNumber", registeringPlateNumber);
-	
-		if(dbVehicle != null){
-			throw new EntityExistsException("Vehicle with plate number " + registeringPlateNumber + " already registered");
+		if(existVehicle(vehicle)){
+			throw new EntityExistsException("Vehicle with plate number " + vehicle.getPlateNumber() + " already registered");
 		}
 		vehicleDao.save(vehicle);
+	}
+	
+	private boolean existVehicle(Vehicle vehicle) {
+		return vehicleDao.getByKey("plateNumber", vehicle.getPlateNumber()) == null;
 	}
 
 }

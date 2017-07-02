@@ -32,12 +32,9 @@ public class ParkServiceImpl extends GenericServiceImpl<Park, String> implements
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void register(Park park) {
-		String registeringParkAddress = park.getAddress();
-		Park dbPark = parkDao.getByKey("address", registeringParkAddress);
-		
 		// TODO how to validate valid address, need address uniform?
-		if(dbPark != null){
-			throw new EntityExistsException("Park at this address " + registeringParkAddress + " already registered");
+		if(existPark(park)){
+			throw new EntityExistsException("Park at this address " + park.getAddress() + " already registered");
 		}
 		parkDao.save(park);
 	}
@@ -60,6 +57,10 @@ public class ParkServiceImpl extends GenericServiceImpl<Park, String> implements
 		}
 		
 		return nearestParks;
+	}
+	
+	private boolean existPark(Park park) {
+		return parkDao.getByKey("address", park.getAddress()) == null;
 	}
 
 }

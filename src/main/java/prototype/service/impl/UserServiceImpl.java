@@ -1,9 +1,9 @@
 package prototype.service.impl;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,24 +34,25 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 		User dbUser = userDao.getByKey("email", loginEmail);
 		
 		if(dbUser == null){
-			throw new UsernameNotFoundException("User email " + loginEmail + " not found");
+			throw new EntityNotFoundException("User email " + loginEmail + " not found");
 		}
 		return passwordEncoder.matches(user.getPassword(), dbUser.getPassword());							
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void register(User user) {
-		String loginEmail = user.getEmail();
-		User dbUser = userDao.getByKey("email", loginEmail);
-		
-		if(dbUser != null){
-			throw new EntityExistsException("User email " + loginEmail + " already exists");
+		if(existUser(user)){
+			throw new EntityExistsException("User " + user.getEmail() + " already exists");
 		}
 		
 		// REVIEW need to set Roles here? is it good to use the 'new' constructor here?
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setProfile(new Profile());
 		userDao.save(user);
+	}
+	
+	private boolean existUser(User user) {
+		return userDao.getByKey("email", user.getEmail()) == null;
 	}
 
 }

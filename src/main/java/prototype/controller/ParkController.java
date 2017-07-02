@@ -35,15 +35,13 @@ public class ParkController {
 	}
 	
 	@PostMapping(PARK)
-	public boolean registerNewPark(@RequestBody @Valid Park park, BindingResult result) {
-		// TODO what should be returned here? boolean or void and throw exception instead
+	public void registerNewPark(@RequestBody @Valid Park park, BindingResult result) {
 		// REVIEW do both bean validation via annotation and Spring validation
 		coordinateValidator.validate(park.getCoordinate(), result);
 		if(result.hasErrors()) {
-			return false;
+			throw new IllegalArgumentException(Constant.INVALID_PARK);
 		}
 		parkService.register(park);
-		return true;
 	}
 	
 	@GetMapping(PARK_BY_ID)
@@ -53,7 +51,7 @@ public class ParkController {
 	
 	@GetMapping(NEAREST_PARK)
 	// REVIEW request parameters will be wired automatically to the object if omit @RequestParam
-	// REVIEW pattern: /nearest_parks?latitude=0&longitude=0
+	// REVIEW URI: /nearest_parks?latitude=0&longitude=0
 	public List<Park> getNearParks(@Valid Coordinate userLocation, BindingResult result) {
 		// REVIEW coordinate validation
 		coordinateValidator.validate(userLocation, result);

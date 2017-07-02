@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import prototype.constant.Constant;
 import prototype.exception.GlobalExceptionHandler;
 import prototype.model.FileModel;
 import prototype.service.ProfileService;
@@ -36,10 +38,9 @@ public class ProfileController {
 	@PostMapping(PROFILE_PHOTO)
 	public void changeUserPhoto(@PathVariable(value = "userId") int profileId, 
 			@Valid @ModelAttribute("photo") FileModel photoFileModel, BindingResult result) throws IOException, FileUploadException {	
-		
 		photoValidator.validate(photoFileModel, result);
 		if(result.hasErrors()) {
-			throw new FileUploadException("Error uploading file");
+			throw new IllegalArgumentException(Constant.INVALID_UPLOADING_FILE);
 		}
 		profileService.changePhoto(profileId, photoFileModel.getFile());
 	}

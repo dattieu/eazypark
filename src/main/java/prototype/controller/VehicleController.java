@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import prototype.constant.Constant;
 import prototype.model.Vehicle;
 import prototype.service.VehicleService;
 
@@ -24,15 +25,13 @@ public class VehicleController {
 	}
 	
 	@PostMapping(VEHICLE)
-	public boolean registerNewVehicle(@RequestBody @Valid Vehicle vehicle, BindingResult result) {
+	public void registerNewVehicle(@RequestBody @Valid Vehicle vehicle, BindingResult result) {
 		// REVIEW due to Primary Shared Key between Vehicle and Payment, they must be updated together
 		// REVIEW client have to do payment as soon as registering new vehicle or else what is the whole point to do that?
-		// TODO what should be returned here? boolean or void and throw exception instead
 		if(result.hasErrors()) {
-			return false;
+			throw new IllegalArgumentException(Constant.INVALID_VEHICLE);
 		}
 		vehicleService.register(vehicle);
-		return true;
 	}
 	
 	@GetMapping(VEHICLE)

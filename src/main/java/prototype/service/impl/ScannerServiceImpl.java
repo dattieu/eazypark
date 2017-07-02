@@ -57,7 +57,7 @@ public class ScannerServiceImpl implements ScannerService {
 		Park currentPark = vehicle.getPark();
 		
 		if(vehicleCurrentState.equals(VehicleState.INPARK)){
-			return  currentPark.getId().equals(parkId);
+			return currentPark.getId().equals(parkId);
 		}
 		return false;
 	}
