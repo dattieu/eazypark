@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
+import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,26 +30,33 @@ public class ProfileController {
 	private final ProfileService profileService;
 	private final PhotoValidator photoValidator;
 	
+	// REVIEW use Spring Aspect here to add a id obfuscation layer?
+	private final Hashids idObfuscator;
+	
 	@Autowired
-	public ProfileController(ProfileService profileService, PhotoValidator photoValidator) {
+	public ProfileController(ProfileService profileService, PhotoValidator photoValidator, Hashids idObfuscator) {
 		this.profileService = profileService;
 		this.photoValidator = photoValidator;
+		this.idObfuscator = idObfuscator;
 	}
 	
 	@PostMapping(PROFILE_PHOTO)
-	public void changeProfilePhoto(@PathVariable(value = "userId") int profileId, 
+	public void changeProfilePhoto(@PathVariable(value = "userId") String profileId, 
 			@Valid @ModelAttribute("photo") FileModel photoFileModel, BindingResult result) throws IOException, FileUploadException {	
+		
+		int deObfuscatedProfileId = (int) idObfuscator.decode(profileId)[0];
 		photoValidator.validate(photoFileModel, result);
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_UPLOADING_FILE);
 		}
-		profileService.changePhoto(profileId, photoFileModel.getFile());
+		profileService.changePhoto(deObfuscatedProfileId, photoFileModel.getFile());
 	}
 	
 	@GetMapping(PROFILE_PHOTO)
 	//TODO need testing
-	public byte[] getProfilePhoto(@PathVariable(value = "userId") int profileId) throws IOException {
-		return profileService.getPhoto(profileId);
+	public byte[] getProfilePhoto(@PathVariable(value = "userId") String profileId) throws IOException {
+		int deObfuscatedProfileId = (int) idObfuscator.decode(profileId)[0];
+		return profileService.getPhoto(deObfuscatedProfileId);
 	} 
 	
 }

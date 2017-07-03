@@ -1,5 +1,6 @@
 package prototype.config;
 
+import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String REALM = "EAZY_PARK";
+	private static final String ID_HASH_SALT = "salt";
+	private static final int OBFUSCATED_ID_MIN_LENGTH = 4;
 	
 	@Autowired
 	@Qualifier("userDetailsService")
@@ -44,6 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
     
+	@Bean
+	public Hashids getIdObfuscator() {
+		 return new Hashids(ID_HASH_SALT, OBFUSCATED_ID_MIN_LENGTH);
+	}
+	
 	@Bean
 	public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
 		return new CustomBasicAuthenticationEntryPoint();

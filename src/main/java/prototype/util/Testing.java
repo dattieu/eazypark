@@ -12,6 +12,8 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashSet;
 
+import org.hashids.Hashids;
+
 import prototype.model.Coordinate;
 import prototype.model.Park;
 import prototype.model.Payment;
@@ -65,7 +67,12 @@ public class Testing {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println(System.getProperty("java.io.tmpdir"));
+		Hashids hashids = new Hashids("this is my salt", 8);
+		String hash = hashids.encode(1);
+		long[] numbers = hashids.decode(hash);
+		System.out.println(hash);
+		
+		System.out.println(numbers[0]);
 	}
 	
 }

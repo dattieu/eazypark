@@ -10,6 +10,7 @@
   
   <!--  Internal POM properties -->
   <properties>
+  	<hashId.version>1.0.2</hashId.version>
  	<junit.version>4.12</junit.version>
   	<hamcrest-library.version>1.3</hamcrest-library.version>
   	<log4j.version>1.2.17</log4j.version>
@@ -25,6 +26,13 @@
   
   <dependencies>
   
+  	<!-- ID obfuscation -->
+  	<dependency>
+	  <groupId>org.hashids</groupId>
+	  <artifactId>hashids</artifactId>
+	  <version>${hashId.version}</version>
+	</dependency>
+  	
   	<!-- Testing -->
     <dependency>
 	    <groupId>junit</groupId>

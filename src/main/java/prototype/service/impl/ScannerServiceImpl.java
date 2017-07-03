@@ -36,9 +36,9 @@ public class ScannerServiceImpl implements ScannerService {
 	}
 	
 	// REVIEW need revising this "scanning" business logic
-	public void scan(String plateNumber, String parkId) {
+	public void scan(String plateNumber, int parkId) {
 		Vehicle vehicle = vehicleService.getByKey("plate_number", plateNumber);
-		Park park = parkService.getByKey("id", parkId);
+		Park park = parkService.getById(parkId);
 		
 		if(vehicle == null){
 			throw new EntityNotFoundException("Vehicle with plate number " + plateNumber + " not found");
@@ -52,7 +52,7 @@ public class ScannerServiceImpl implements ScannerService {
 		}
 	}
 
-	private boolean isVehicleInPark(Vehicle vehicle, String parkId) {
+	private boolean isVehicleInPark(Vehicle vehicle, int parkId) {
 		VehicleState vehicleCurrentState = vehicle.getState();
 		Park currentPark = vehicle.getPark();
 		

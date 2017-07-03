@@ -1,5 +1,6 @@
 package prototype.controller;
 
+import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,13 @@ public class ScannerController {
 	
 	private final ScannerService scannerService;
 	
+	// REVIEW use Spring Aspect here to add a id obfuscation layer?
+	private final Hashids idObfuscator;
+	
 	@Autowired
-	public ScannerController(ScannerService scannerService) {
+	public ScannerController(ScannerService scannerService, Hashids idObfuscator) {
 		this.scannerService = scannerService;
+		this.idObfuscator = idObfuscator;
 	}
 	
 	// REVIEW client's QR code (plate number) is scanned from the application device and sent to back end.
@@ -25,7 +30,9 @@ public class ScannerController {
 	@GetMapping(SCANNER)
 	public void scanVehicleCode(@RequestParam(value = "plateNumber", required = true) String plateNumber, 
 								@PathVariable("parkId") String parkId) {
-		scannerService.scan(plateNumber, parkId);
+		
+		int deObfuscatedProfileId = (int) idObfuscator.decode(parkId)[0];
+		scannerService.scan(plateNumber, deObfuscatedProfileId);
 	}
 	
 }
