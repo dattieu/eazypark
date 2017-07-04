@@ -30,7 +30,7 @@ public class ScannerController {
 	@GetMapping(SCANNER)
 	public void scanVehicleCode(@RequestParam(value = "plateNumber", required = true) String plateNumber, 
 								@PathVariable("parkId") String parkId) {
-		
+		// REVIEW should you DTO here? because it' not actually a query, so avoid using request parameters
 		int deObfuscatedProfileId = (int) idObfuscator.decode(parkId)[0];
 		scannerService.scan(plateNumber, deObfuscatedProfileId);
 	}

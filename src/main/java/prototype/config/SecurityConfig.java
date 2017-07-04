@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String REALM = "EAZY_PARK";
-	private static final String ID_HASH_SALT = "salt";
+	private static final String ID_HASH_SALT = "salt"; // REVIEW should it be here?
 	private static final int OBFUSCATED_ID_MIN_LENGTH = 4;
 	
 	@Autowired
