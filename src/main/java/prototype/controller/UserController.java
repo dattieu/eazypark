@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import prototype.constant.Constant;
+import prototype.dto.PasswordChangeDto;
 import prototype.model.User;
 import prototype.service.UserService;
 
@@ -36,7 +37,7 @@ public class UserController {
 			throw new IllegalArgumentException(Constant.INVALID_USER);
 		}
 		return (userService.login(user) == true) ? ResponseEntity.status(HttpStatus.OK).body(Constant.LOGIN_SUCCESS)
-												 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Constant.INVALID_CREDENTIALS);
+				: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Constant.INVALID_CREDENTIALS);
 	}
 	
 	@PostMapping(USERS)
@@ -50,13 +51,18 @@ public class UserController {
 	@GetMapping(USERS)
 	public User getUser(@RequestParam(value = "email", required = true) String email) {
 		// TODO handle null object? -> Null object pattern? or throw exception? where? service or DAO layer or here?
-		// REVIEW only admin can get this (need to start Spring Security and do some obsfucation work here)
+		// REVIEW only admin can get this (need to start Spring Security and do some obfuscation work here)
 		return userService.getByKey("email", email);
 	}
 	
 	@PostMapping(PASSWORD_CHANGE)
-	public void changeUserPassword() {
-		// TODO how client should send password over network? how to do secutiry here? 
+	public void changeUserPassword(@RequestBody @Valid PasswordChangeDto pwdChangeDto, BindingResult result) {
+		// TODO password matching validation
+		// TODO need testing
+		if(result.hasErrors()) {
+			throw new IllegalArgumentException(Constant.INVALID_PASSSWORD_CHANGE);
+		}
+		userService.changePassword(pwdChangeDto);
 	}
 	
 }

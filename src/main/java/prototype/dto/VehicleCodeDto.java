@@ -1,18 +1,15 @@
 package prototype.dto;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Min;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class VehicleCodeDto {
 
-	@NotNull
-    @NotEmpty
-    private String plateNumber;
+	@NotBlank
+	private String plateNumber;
 	
-	@NotNull
-    @NotEmpty
-    private String parkId;
+	@Min(1)
+	private int parkId;
 
 	public String getPlateNumber() {
 		return plateNumber;
@@ -22,11 +19,11 @@ public class VehicleCodeDto {
 		this.plateNumber = plateNumber;
 	}
 
-	public String getParkId() {
+	public int getParkId() {
 		return parkId;
 	}
 
-	public void setParkId(String parkId) {
+	public void setParkId(int parkId) {
 		this.parkId = parkId;
 	}
 	

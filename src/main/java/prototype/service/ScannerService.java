@@ -1,7 +1,9 @@
 package prototype.service;
 
+import prototype.dto.VehicleCodeDto;
+
 public interface ScannerService {
 
-	void scan(String plateNumber, int parkId);
+	void scan(VehicleCodeDto vehicleCodeDto);
 	
 }

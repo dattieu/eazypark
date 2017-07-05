@@ -1,12 +1,15 @@
 package prototype.controller;
 
-import org.hashids.Hashids;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import prototype.constant.Constant;
+import prototype.dto.VehicleCodeDto;
 import prototype.service.ScannerService;
 
 @RestController
@@ -16,23 +19,19 @@ public class ScannerController {
 	
 	private final ScannerService scannerService;
 	
-	// REVIEW use Spring Aspect here to add a id obfuscation layer?
-	private final Hashids idObfuscator;
-	
 	@Autowired
-	public ScannerController(ScannerService scannerService, Hashids idObfuscator) {
+	public ScannerController(ScannerService scannerService) {
 		this.scannerService = scannerService;
-		this.idObfuscator = idObfuscator;
 	}
 	
 	// REVIEW client's QR code (plate number) is scanned from the application device and sent to back end.
-	// TODO need testing and some validation work here
-	@GetMapping(SCANNER)
-	public void scanVehicleCode(@RequestParam(value = "plateNumber", required = true) String plateNumber, 
-								@PathVariable("parkId") String parkId) {
-		// REVIEW should you DTO here? because it' not actually a query, so avoid using request parameters
-		int deObfuscatedProfileId = (int) idObfuscator.decode(parkId)[0];
-		scannerService.scan(plateNumber, deObfuscatedProfileId);
+	// TODO need testing
+	@PostMapping(SCANNER)
+	public void scanVehicleCode(@RequestBody @Valid VehicleCodeDto vehicleCodeDto, BindingResult result) {
+		if(result.hasErrors()) {
+			throw new IllegalArgumentException(Constant.INVALID_VEHICLE_CODE);
+		}
+		scannerService.scan(vehicleCodeDto);
 	}
 	
 }

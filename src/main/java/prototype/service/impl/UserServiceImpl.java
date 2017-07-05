@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import prototype.dao.GenericDao;
 import prototype.dao.UserDao;
+import prototype.dto.PasswordChangeDto;
 import prototype.model.Profile;
 import prototype.model.User;
 import prototype.service.UserService;
@@ -30,19 +31,20 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public boolean login(User user) {
-		String loginEmail = user.getEmail();
-		User dbUser = userDao.getByKey("email", loginEmail);
+		String userEmail = user.getEmail();
+		User dbUser = userDao.getByKey("email", userEmail);
 		
 		if(dbUser == null){
-			throw new EntityNotFoundException("User email " + loginEmail + " not found");
+			throw new EntityNotFoundException("User email " + userEmail + " not found");
 		}
 		return passwordEncoder.matches(user.getPassword(), dbUser.getPassword());							
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void register(User user) {
-		if(existUser(user)){
-			throw new EntityExistsException("User " + user.getEmail() + " already exists");
+		String userEmail = user.getEmail();
+		if(existUser(userEmail)){
+			throw new EntityExistsException("User " + userEmail + " already exists");
 		}
 		
 		// REVIEW need to set Roles here? is it good to use the 'new' constructor here?
@@ -51,12 +53,21 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 		userDao.save(user);
 	}
 	
-	private boolean existUser(User user) {
-		return userDao.getByKey("email", user.getEmail()) == null;
+	private boolean existUser(String userEmail) {
+		return userDao.getByKey("email", userEmail) == null;
 	}
 
-	public void changePassword(String newPassword) {
-		// TODO Auto-generated method stub
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changePassword(PasswordChangeDto pwdChangeDto) {
+		String userEmail = pwdChangeDto.getEmail();
+		User dbUser = userDao.getByKey("email", userEmail);
+		
+		if(dbUser == null){
+			throw new EntityNotFoundException("User email " + userEmail + " not found");
+		}
+		
+		dbUser.setPassword(passwordEncoder.encode(pwdChangeDto.getNewPassword()));
+		userDao.update(dbUser);
 	}
 
 }

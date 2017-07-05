@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import prototype.constant.Properties.VehicleState;
+import prototype.dto.VehicleCodeDto;
 import prototype.exception.InvalidPayment;
 import prototype.model.Park;
 import prototype.model.Payment;
@@ -36,7 +37,9 @@ public class ScannerServiceImpl implements ScannerService {
 	}
 	
 	// REVIEW need revising this "scanning" business logic
-	public void scan(String plateNumber, int parkId) {
+	public void scan(VehicleCodeDto vehicleCodeDto) {
+		String plateNumber = vehicleCodeDto.getPlateNumber();
+		int parkId = vehicleCodeDto.getParkId();
 		Vehicle vehicle = vehicleService.getByKey("plate_number", plateNumber);
 		Park park = parkService.getById(parkId);
 		
