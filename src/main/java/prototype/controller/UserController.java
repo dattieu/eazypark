@@ -51,7 +51,7 @@ public class UserController {
 	@GetMapping(USERS)
 	public User getUser(@RequestParam(value = "email", required = true) String email) {
 		// TODO handle null object? -> Null object pattern? or throw exception? where? service or DAO layer or here?
-		// REVIEW only admin can get this (need to start Spring Security and do some obfuscation work here)
+		// REVIEW only admin can get this (need to provide authentication)
 		return userService.getByKey("email", email);
 	}
 	

@@ -4,7 +4,6 @@ import java.io.IOException;
 import javax.validation.Valid;
 
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.log4j.Logger;
 import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import prototype.constant.Constant;
-import prototype.exception.GlobalExceptionHandler;
 import prototype.model.FileModel;
 import prototype.service.ProfileService;
 import prototype.validator.PhotoValidator;
@@ -24,10 +22,9 @@ import prototype.validator.PhotoValidator;
 public class ProfileController {
 	
 	private static final String PROFILE_PHOTO = "profiles/photos/{userId}";
-	
-	protected final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 
 	private final ProfileService profileService;
+	
 	private final PhotoValidator photoValidator;
 	
 	// REVIEW use Spring Aspect here to add a id obfuscation layer?

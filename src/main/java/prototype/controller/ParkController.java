@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +27,17 @@ public class ParkController {
 	private static final String NEAREST_PARK = "/nearest_parks";
 	
 	private final ParkService parkService;
+	
 	private final CoordinateValidator coordinateValidator;
 	
+	// REVIEW use Spring Aspect here to add a id obfuscation layer?
+	private final Hashids idObfuscator;
+	
 	@Autowired
-	public ParkController(ParkService parkService, CoordinateValidator coordinateValidator) {
+	public ParkController(ParkService parkService, CoordinateValidator coordinateValidator, Hashids idObfuscator) {
 		this.parkService = parkService;
 		this.coordinateValidator = coordinateValidator;
+		this.idObfuscator = idObfuscator;
 	}
 	
 	@PostMapping(PARK)
@@ -45,8 +51,9 @@ public class ParkController {
 	}
 	
 	@GetMapping(PARK_BY_ID)
-	public Park getParkById(@PathVariable("id") int parkId) {
-		return parkService.getById(parkId);
+	public Park getParkById(@PathVariable("id") String parkId) {
+		int deObfuscatedParkId = (int) idObfuscator.decode(parkId)[0];
+		return parkService.getById(deObfuscatedParkId);
 	}
 	
 	@GetMapping(NEAREST_PARK)

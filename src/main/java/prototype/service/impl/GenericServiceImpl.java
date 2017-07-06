@@ -49,5 +49,10 @@ public class GenericServiceImpl<T, V> implements GenericService<T, V> {
 	public void update(T object) {
 		genericDao.update(object);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public T merge(T object) {
+		return (T) genericDao.merge(object);
+	}
 
 }

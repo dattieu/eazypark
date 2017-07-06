@@ -41,10 +41,7 @@ public class ProfileServiceImpl extends GenericServiceImpl<Profile, Integer> imp
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void changePhoto(int profileId, MultipartFile photo) throws IOException {
-		Profile profile = profileDao.getById(profileId);
-		if(profile == null) {
-			throw new EntityNotFoundException("Profile " + profileId + " not found");
-		}
+		Profile profile = getProfileById(profileId);
 		
 		// REVIEW Path only works with Java 7 or higher
 		// REVIEW need a basic image file system server? UUID for file name?
@@ -58,14 +55,21 @@ public class ProfileServiceImpl extends GenericServiceImpl<Profile, Integer> imp
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public byte[] getPhoto(int profileId) throws IOException {
-		Profile profile = profileDao.getById(profileId);
-		if(profile == null) {
-			throw new EntityNotFoundException("Profile " + profileId + " not found");
-		}
+		Profile profile = getProfileById(profileId);
 		
 		String photoFileAbsolutePath = Paths.get(environment.getRequiredProperty("image.upload.location"), profile.getPhoto()).toString();
 		InputStream in = new FileInputStream(photoFileAbsolutePath);
 		return IOUtils.toByteArray(in);
+	}
+	
+	private Profile getProfileById(int profileId) {
+		Profile dbProfile = profileDao.getById(profileId);
+		
+		if(dbProfile == null) {
+			throw new EntityNotFoundException("Profile " + profileId + " not found");
+		}
+		
+		return dbProfile;
 	}
 	
 }

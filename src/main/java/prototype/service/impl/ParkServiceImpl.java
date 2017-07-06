@@ -40,7 +40,7 @@ public class ParkServiceImpl extends GenericServiceImpl<Park, String> implements
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public List<Park> getNearParks(Coordinate coordinate) {
+	public List<Park> getNearParks(Coordinate userCoordinate) {
 		List<Park> allParksInDb = parkDao.getAll();
 		List<Park> nearestParks = new ArrayList<Park>();
 		
@@ -49,7 +49,7 @@ public class ParkServiceImpl extends GenericServiceImpl<Park, String> implements
 		for(Park park : allParksInDb){
 			Coordinate parkCoordinate = park.getCoordinate();
 			double distance = Haversine.getDistance(parkCoordinate.getLatitude(), parkCoordinate.getLongitude(), 
-													coordinate.getLatitude(), coordinate.getLongitude());
+					userCoordinate.getLatitude(), userCoordinate.getLongitude());
 			
 			if(distance <= NEAREST_PARK_RADIUS){
 				nearestParks.add(park);

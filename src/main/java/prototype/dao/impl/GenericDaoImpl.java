@@ -60,4 +60,7 @@ public abstract class GenericDaoImpl<T, V extends Serializable> implements Gener
 		getSession().saveOrUpdate(object);
 	}
 
+	public T merge(final T object)   {
+    	return (T) getSession().merge(object);
+    }
 }

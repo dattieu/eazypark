@@ -7,7 +7,7 @@ public class PasswordChangeDto {
 
 	@Email
 	@NotBlank
-	private String email;
+	private String userEmail;
 	
 	@NotBlank
 	private String currentPassword;
@@ -17,13 +17,23 @@ public class PasswordChangeDto {
     
 	@NotBlank
 	private String matchingNewPassword;
-    
-	public String getEmail() {
-		return email;
-	}
 	
-	public void setEmail(String email) {
-		this.email = email;
+	public PasswordChangeDto() {}
+
+	public PasswordChangeDto(String userEmail, String currentPassword, String newPassword, String matchingNewPassword) {
+		super();
+		this.userEmail = userEmail;
+		this.currentPassword = currentPassword;
+		this.newPassword = newPassword;
+		this.matchingNewPassword = matchingNewPassword;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
 	public String getCurrentPassword() {

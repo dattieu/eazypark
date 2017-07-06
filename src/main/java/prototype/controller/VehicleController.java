@@ -26,7 +26,7 @@ public class VehicleController {
 	
 	@PostMapping(VEHICLE)
 	public void registerNewVehicle(@RequestBody @Valid Vehicle vehicle, BindingResult result) {
-		// REVIEW due to Primary Shared Key between Vehicle and Payment, they must be updated together
+		// REVIEW due to Primary Shared Key between Vehicle and Payment, they must be saved together
 		// REVIEW client have to do payment as soon as registering new vehicle or else what is the whole point to do that?
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_VEHICLE);

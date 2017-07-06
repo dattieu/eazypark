@@ -20,6 +20,7 @@ import prototype.service.UserService;
 public class UserServiceImpl extends GenericServiceImpl<User, String> implements UserService {
 
 	private final UserDao userDao;
+	
 	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
@@ -31,43 +32,41 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public boolean login(User user) {
-		String userEmail = user.getEmail();
-		User dbUser = userDao.getByKey("email", userEmail);
-		
-		if(dbUser == null){
-			throw new EntityNotFoundException("User email " + userEmail + " not found");
-		}
+		User dbUser = getUserByEmail(user.getEmail());
 		return passwordEncoder.matches(user.getPassword(), dbUser.getPassword());							
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void register(User user) {
-		String userEmail = user.getEmail();
-		if(existUser(userEmail)){
-			throw new EntityExistsException("User " + userEmail + " already exists");
+		if(existUser(user)){
+			throw new EntityExistsException("User " + user.getEmail() + " already exists");
 		}
 		
-		// REVIEW need to set Roles here? is it good to use the 'new' constructor here?
+		// REVIEW need to set Roles here?
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setProfile(new Profile());
 		userDao.save(user);
 	}
 	
-	private boolean existUser(String userEmail) {
-		return userDao.getByKey("email", userEmail) == null;
-	}
-
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void changePassword(PasswordChangeDto pwdChangeDto) {
-		String userEmail = pwdChangeDto.getEmail();
+		User dbUser = getUserByEmail(pwdChangeDto.getUserEmail());
+		dbUser.setPassword(passwordEncoder.encode(pwdChangeDto.getNewPassword()));
+		userDao.update(dbUser);
+	}
+	
+	private User getUserByEmail(String userEmail) {
 		User dbUser = userDao.getByKey("email", userEmail);
 		
 		if(dbUser == null){
 			throw new EntityNotFoundException("User email " + userEmail + " not found");
 		}
 		
-		dbUser.setPassword(passwordEncoder.encode(pwdChangeDto.getNewPassword()));
-		userDao.update(dbUser);
+		return dbUser;
+	}
+	
+	private boolean existUser(User user) {
+		return userDao.getByKey("email", user.getEmail()) ==  null;
 	}
 
 }
