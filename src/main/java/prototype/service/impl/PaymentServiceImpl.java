@@ -1,5 +1,7 @@
 package prototype.service.impl;
 
+import java.math.BigDecimal;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +26,26 @@ public class PaymentServiceImpl extends GenericServiceImpl<Payment, Integer> imp
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void renewPayment(Payment payment) {
-		Payment dbPayment = paymentDao.getById(payment.getId());
+	public void updatePayment(Payment payment) {
+		// REVIEW just simple calculation, regardless of 'prepaid' or 'credit', not real world actual payment
+		Payment dbPayment = getPaymentById(payment.getId());
+		BigDecimal newAmount = calculateNewPaymentAmount(payment, dbPayment);
+		dbPayment.setAmount(newAmount);
+		paymentDao.update(dbPayment);
+	}
+	
+	private Payment getPaymentById(int paymentId) {
+		Payment dbPayment = paymentDao.getById(paymentId);
 		
 		if(dbPayment == null) {
-			throw new EntityNotFoundException("Payment not found");
+			throw new EntityNotFoundException("Payment " + paymentId + " not found");
 		}
 		
-		dbPayment.setAmount(payment.getAmount());
-		paymentDao.update(dbPayment);
+		return dbPayment;
+	}
+	
+	private BigDecimal calculateNewPaymentAmount(Payment newPayment, Payment currentPayment) {
+		return currentPayment.getAmount().add(newPayment.getAmount());
 	}
 
 }

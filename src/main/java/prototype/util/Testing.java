@@ -50,12 +50,12 @@ public class Testing {
 //		BigDecimal fee = new BigDecimal(5);
 //		Coordinate coords = new Coordinate(1.0, 2.0);
 //		
-		try {
-			System.out.println(JsonMapper.convertObjectToJson(payment));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			System.out.println(JsonMapper.convertObjectToJson(payment));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 //		Path src = Paths.get("E:/workspace", "dat.txt");
 //		Path dest = Paths.get("E:/workspace/", "test2.txt");
@@ -67,12 +67,12 @@ public class Testing {
 //			e.printStackTrace();
 //		}
 		
-//		Hashids hashids = new Hashids("this is my salt", 8);
-//		String hash = hashids.encode(1);
-//		long[] numbers = hashids.decode(hash);
-//		System.out.println(hash);
-//		
-//		System.out.println(numbers[0]);
+		Hashids hashids = new Hashids("salt", 4);
+		String hash = hashids.encode(1);
+		long[] numbers = hashids.decode(hash);
+		System.out.println(hash);
+		
+		System.out.println(numbers[0]);
 	}
 	
 }

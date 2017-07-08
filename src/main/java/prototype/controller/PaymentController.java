@@ -30,7 +30,7 @@ public class PaymentController {
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_PAYMENT);
 		}
-		paymentService.renewPayment(payment);
+		paymentService.updatePayment(payment);
 	}
 	
 }

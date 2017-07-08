@@ -51,8 +51,8 @@ public class GenericServiceImpl<T, V> implements GenericService<T, V> {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public T merge(T object) {
-		return (T) genericDao.merge(object);
+	public void saveOrUpdate(T object) {
+		genericDao.saveOrUpdate(object);
 	}
 
 }

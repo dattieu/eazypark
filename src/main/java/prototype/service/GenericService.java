@@ -10,6 +10,6 @@ public interface GenericService<T, V> {
 	void save(final T object);
 	void delete(final T object);
 	void update(final T object);
-	T merge(final T object);
+	void saveOrUpdate(final T object);
 	
 }
