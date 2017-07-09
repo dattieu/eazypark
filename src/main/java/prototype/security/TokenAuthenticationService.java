@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 public class TokenAuthenticationService {
 
 	private static final String HEADER_STRING = "Authorization";
-
+	
 	private static TokenHandler tokenHandler = new TokenHandler();
 
     public static void addAuthentication(HttpServletResponse response, String userEmail) {
@@ -23,7 +23,7 @@ public class TokenAuthenticationService {
         	String userEmail = tokenHandler.parseUserFromToken(token);
             
             if (userEmail != null) {
-            	new UsernamePasswordAuthenticationToken(userEmail, null);
+            	return new UsernamePasswordAuthenticationToken(userEmail, null);
             }
         }
         

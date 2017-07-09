@@ -24,7 +24,6 @@ public class JWTAuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
     	Authentication authentication = authenticationService.getAuthentication((HttpServletRequest) request);
     	SecurityContextHolder.getContext().setAuthentication(authentication);
-    	SecurityContextHolder.getContext().setAuthentication(null);
     	filterChain.doFilter(request, response);
     }
 

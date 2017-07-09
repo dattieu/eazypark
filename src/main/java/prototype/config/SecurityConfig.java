@@ -64,8 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// REVIEW JWT only works for the first time!, the token expired and wouldn't work again 
-		// REVIEW JWT TokenHandler always generates the same token for all users every single time, what goes wrong?!
+		// REVIEW login works but always bad credential when use the token! why?
 		// REVIEW how to implement refresh token? just a mess here!
 		// REVIEW just remove the filters for JWT and it's good to go with normal basic authentication
 		http
@@ -78,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .addFilterBefore(new JWTAuthenticationFilter(new TokenAuthenticationService()), 
 	        		UsernamePasswordAuthenticationFilter.class)
 	        .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
-			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 }
