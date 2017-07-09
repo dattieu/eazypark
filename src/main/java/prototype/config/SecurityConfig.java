@@ -15,6 +15,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import prototype.security.JWTAuthenticationFilter;
+import prototype.security.JWTLoginFilter;
+import prototype.security.TokenAuthenticationService;
 
 @Configuration
 @EnableWebSecurity
@@ -59,11 +64,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
+		// REVIEW JWT only works for the first time!, the token expired and wouldn't work again 
+		// REVIEW JWT TokenHandler always generates the same token for all users every single time, what goes wrong?!
+		// REVIEW how to implement refresh token? just a mess here!
+		// REVIEW just remove the filters for JWT and it's good to go with normal basic authentication
+		http
+			.csrf().disable()
 			.authorizeRequests()
-	        .antMatchers("/").permitAll() 
+			.antMatchers("/").permitAll() 
 	        .antMatchers(HttpMethod.GET, "/users/**").access("hasRole('ADMIN')")
-	        .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
+	        .anyRequest().authenticated().and()
+	        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+	        .addFilterBefore(new JWTAuthenticationFilter(new TokenAuthenticationService()), 
+	        		UsernamePasswordAuthenticationFilter.class)
+	        .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
 			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	

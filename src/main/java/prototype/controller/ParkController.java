@@ -6,11 +6,13 @@ import javax.validation.Valid;
 
 import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import prototype.constant.Constant;
@@ -41,6 +43,7 @@ public class ParkController {
 	}
 	
 	@PostMapping(PARK)
+	@ResponseStatus(HttpStatus.CREATED)
 	public void registerNewPark(@RequestBody @Valid Park park, BindingResult result) {
 		// TODO need testing
 		coordinateValidator.validate(park.getCoordinate(), result);
@@ -60,7 +63,6 @@ public class ParkController {
 	// REVIEW request parameters will be wired automatically to the object if omit @RequestParam
 	// REVIEW URI: /nearest_parks?latitude=0&longitude=0
 	public List<Park> getNearParks(@Valid Coordinate userLocation, BindingResult result) {
-		// REVIEW coordinate validation
 		coordinateValidator.validate(userLocation, result);
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_COORDINATE);

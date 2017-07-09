@@ -10,6 +10,7 @@
   
   <!--  Internal POM properties -->
   <properties>
+  	<jsonwebtoken.version>0.7.0</jsonwebtoken.version>
   	<hashId.version>1.0.2</hashId.version>
  	<junit.version>4.12</junit.version>
   	<hamcrest-library.version>1.3</hamcrest-library.version>
@@ -25,6 +26,13 @@
   </properties>
   
   <dependencies>
+  
+  	<!-- JSON Web Token -->
+  	<dependency>
+	    <groupId>io.jsonwebtoken</groupId>
+	    <artifactId>jjwt</artifactId>
+	    <version>${jsonwebtoken.version}</version>
+	</dependency>
   
   	<!-- ID obfuscation -->
   	<dependency>

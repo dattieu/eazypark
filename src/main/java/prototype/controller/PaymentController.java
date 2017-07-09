@@ -24,7 +24,6 @@ public class PaymentController {
 		this.paymentService = paymentService;
 	}
 	
-	// TODO need testing, payment for what? id?
 	@PostMapping(PAYMENTS)
 	public void updatePayment(@RequestBody @Valid Payment payment, BindingResult result) {
 		if(result.hasErrors()) {

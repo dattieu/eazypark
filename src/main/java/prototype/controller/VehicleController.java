@@ -2,11 +2,13 @@ package prototype.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import prototype.constant.Constant;
@@ -25,6 +27,7 @@ public class VehicleController {
 	}
 	
 	@PostMapping(VEHICLE)
+	@ResponseStatus(HttpStatus.CREATED)
 	public void registerNewVehicle(@RequestBody @Valid Vehicle vehicle, BindingResult result) {
 		// REVIEW due to Primary Shared Key between Vehicle and Payment, they must be saved together
 		// REVIEW client have to do payment as soon as registering new vehicle or else what is the whole point to do that?
