@@ -17,6 +17,9 @@ public class Review extends PropertyEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Column(name = "park_id")
+	private int parkId;
+	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "date")
@@ -27,7 +30,7 @@ public class Review extends PropertyEntity implements Serializable {
 		
 	@Column(name = "description")
 	private String description;
-	
+
 	public Review(){}
 
 	public Review(int rate, String description) {
@@ -37,6 +40,14 @@ public class Review extends PropertyEntity implements Serializable {
 		this.description = description;
 	}
 
+	public int getParkId() {
+		return parkId;
+	}
+
+	public void setParkId(int parkId) {
+		this.parkId = parkId;
+	}
+	
 	public Date getDate() {
 		return date;
 	}

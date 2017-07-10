@@ -15,6 +15,7 @@ public class Constant {
 	public static final String INVALID_PAYMENT = "Invalid payment";
 	public static final String INVALID_PASSSWORD_CHANGE = "Invalid password change";
 	public static final String INVALID_VEHICLE_CODE = "Invalid vehicle code";
+	public static final String INVALID_REVIEW = "Invalid review";
 	
 	public static final String RESOURCE_NOT_EXIST = "Unable to find the resource";
 	public static final String RESOURCE_ALREADY_EXIST = "Resource aldready exists";
