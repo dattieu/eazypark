@@ -43,12 +43,11 @@ public class UserController {
 		if(result.hasErrors()) {
 			throw new IllegalArgumentException(Constant.INVALID_USER);
 		}
-		return (userService.login(user) == true) ? ResponseEntity.status(HttpStatus.OK).body(Constant.LOGIN_SUCCESS)
-				: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Constant.INVALID_CREDENTIALS);
+		return (userService.login(user) == true) ? new ResponseEntity<String>(HttpStatus.OK) 
+				: new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PostMapping(LOGOUT)
-	@ResponseStatus(HttpStatus.OK)
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null){    
@@ -66,10 +65,10 @@ public class UserController {
 	}
 	
 	@GetMapping(USERS)
-	public User getUser(@RequestParam(value = "email", required = true) String email) {
-		// TODO handle null object? -> Null object pattern? or throw exception? where? service or DAO layer or here?
+	public ResponseEntity<User> getUser(@RequestParam(value = "email", required = true) String email) {
 		// REVIEW only admin can get this (need to provide authentication)
-		return userService.getByKey("email", email);
+		User user = userService.getByKey("email", email);
+		return (user != null) ? new ResponseEntity<User>(user, HttpStatus.OK) : new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PostMapping(PASSWORD_CHANGE)

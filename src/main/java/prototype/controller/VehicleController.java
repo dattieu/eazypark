@@ -3,6 +3,7 @@ package prototype.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,10 +39,11 @@ public class VehicleController {
 	}
 	
 	@GetMapping(VEHICLE)
-	public Vehicle getVehicle(@RequestParam(value = "plateNumber", required = true) String plateNumber) {
+	public ResponseEntity<Vehicle> getVehicle(@RequestParam(value = "plateNumber", required = true) String plateNumber) {
 		// TODO how to do validation here
-		// TODO handle null object? -> Null object pattern? or throw exception? where? service or DAO layer or here?
-		return vehicleService.getByKey("plateNumber", plateNumber);
+		Vehicle vehicle = vehicleService.getByKey("plateNumber", plateNumber);
+		return (vehicle != null) ? new ResponseEntity<Vehicle>(vehicle, HttpStatus.OK) 
+				: new ResponseEntity<Vehicle>(vehicle, HttpStatus.NOT_FOUND);
 	}
 	
 }
