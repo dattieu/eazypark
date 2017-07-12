@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +32,10 @@ public class ParkController {
 	
 	private final CoordinateValidator coordinateValidator;
 	
-	// REVIEW use Spring Aspect here to add a id obfuscation layer?
-	private final Hashids idObfuscator;
-	
 	@Autowired
-	public ParkController(ParkService parkService, CoordinateValidator coordinateValidator, Hashids idObfuscator) {
+	public ParkController(ParkService parkService, CoordinateValidator coordinateValidator) {
 		this.parkService = parkService;
 		this.coordinateValidator = coordinateValidator;
-		this.idObfuscator = idObfuscator;
 	}
 	
 	@PostMapping(PARK)
@@ -56,8 +51,8 @@ public class ParkController {
 	
 	@GetMapping(PARK_BY_ID)
 	public ResponseEntity<Park> getParkById(@PathVariable("id") String parkId) {
-		int deObfuscatedParkId = (int) idObfuscator.decode(parkId)[0];
-		Park park = parkService.getById(deObfuscatedParkId);
+		// TODO just a draft version, need some cleaning and figure a solution to apply this for all controllers
+		Park park = parkService.getById((Integer.parseInt(parkId)));
 		return (park != null) ? new ResponseEntity<Park>(park, HttpStatus.OK) : new ResponseEntity<Park>(HttpStatus.NOT_FOUND);
 	}
 	

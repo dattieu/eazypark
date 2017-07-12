@@ -15,7 +15,7 @@ import prototype.service.ScannerService;
 @RestController
 public class ScannerController {
 
-	private static final String SCANNER = "/checkins/{parkId}";
+	private static final String SCANNER = "/checkins";
 	
 	private final ScannerService scannerService;
 	

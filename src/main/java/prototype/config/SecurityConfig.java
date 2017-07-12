@@ -70,14 +70,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/").permitAll() 
-	        .antMatchers(HttpMethod.GET, "/users/**").access("hasRole('ADMIN')")
-	        .anyRequest().authenticated().and()
-	        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-	        .addFilterBefore(new JWTAuthenticationFilter(new TokenAuthenticationService()), 
-	        		UsernamePasswordAuthenticationFilter.class)
-	        .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
-	        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.antMatchers("/").permitAll()
+			.antMatchers(HttpMethod.POST, "/login").permitAll()
+	        .antMatchers(HttpMethod.GET, "/users/**").access("hasRole('ADMIN')").and()
+//	        .anyRequest().authenticated().and()
+//	        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+//	        .addFilterBefore(new JWTAuthenticationFilter(new TokenAuthenticationService()), 
+//	        		UsernamePasswordAuthenticationFilter.class);
+	        .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()).and()
+	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 }
