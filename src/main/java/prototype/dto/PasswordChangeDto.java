@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.NotBlank;
 public class PasswordChangeDto {
 
 	@Email
-	@NotBlank
 	private String userEmail;
 	
 	@NotBlank

@@ -38,9 +38,9 @@ public class Vehicle extends PropertyEntity implements Serializable {
 	@PrimaryKeyJoinColumn(name = "payment_id")
 	private Payment payment;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "park_id")
-	@JsonBackReference
 	private Park park;
 	
 	@Transient
@@ -97,7 +97,7 @@ public class Vehicle extends PropertyEntity implements Serializable {
 		this.payment = payment;
 	}
 	
-	public boolean isPayed() {
+	public boolean isPaid() {
 		return this.payment != null;
 	}
 	

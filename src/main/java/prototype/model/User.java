@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity implements Serializable {
@@ -27,6 +30,7 @@ public class User extends BaseEntity implements Serializable {
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@NotEmpty
 	@Column(name = "password", nullable = false)
 	private String password;

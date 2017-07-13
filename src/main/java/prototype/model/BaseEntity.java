@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 	
@@ -26,6 +28,7 @@ public class BaseEntity implements Serializable {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public boolean isNew() {
 		return this.id == null;
 	}

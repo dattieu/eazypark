@@ -53,8 +53,8 @@ public class Park extends PropertyEntity implements Serializable {
 	@Transient
 	private int vacancy;
 	
-	@OneToMany(mappedBy = "park", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonManagedReference
+	@OneToMany(mappedBy = "park", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Vehicle> vehicleList;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

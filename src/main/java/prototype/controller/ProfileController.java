@@ -47,11 +47,6 @@ public class ProfileController {
 	//TODO need testing
 	public byte[] getProfilePhoto(@PathVariable(value = "userId") String profileId) throws IOException {
 		return profileService.getPhoto(Integer.parseInt(profileId));
-	} 
-	
-	@GetMapping("/test/{id}/{arg}")
-	public String test(@PathVariable(value = "id") String id, @PathVariable(value = "arg") String arg) {
-		return "Aspect id obfuscator succeeds, id: " + id + ", args: " + arg;
 	}
 	
 }
