@@ -25,7 +25,7 @@ import prototype.validator.CoordinateValidator;
 public class ParkController {
 
 	private static final String PARK = "/parks";
-	private static final String PARK_BY_ID= "/parks/{id}";
+	private static final String PARK_BY_ID = "/parks/{id}";
 	private static final String NEAREST_PARK = "/nearest_parks";
 	
 	private final ParkService parkService;
@@ -51,7 +51,6 @@ public class ParkController {
 	
 	@GetMapping(PARK_BY_ID)
 	public ResponseEntity<Park> getParkById(@PathVariable("id") String parkId) {
-		// TODO just a draft version, need some cleaning and figure a solution to apply this for all controllers
 		Park park = parkService.getById((Integer.parseInt(parkId)));
 		return (park != null) ? new ResponseEntity<Park>(park, HttpStatus.OK) : new ResponseEntity<Park>(HttpStatus.NOT_FOUND);
 	}

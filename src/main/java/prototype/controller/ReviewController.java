@@ -2,7 +2,6 @@ package prototype.controller;
 
 import javax.validation.Valid;
 
-import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -27,20 +26,16 @@ public class ReviewController {
 	private final ReviewService reviewService;
 	private final ParkService parkService;
 	
-	// REVIEW use Spring Aspect here to add a id obfuscation layer?
-	private final Hashids idObfuscator;
-	
 	@Autowired
-	public ReviewController(ReviewService reviewService, ParkService parkService, Hashids idObfuscator) {
+	public ReviewController(ReviewService reviewService, ParkService parkService) {
 		this.reviewService = reviewService;	
 		this.parkService = parkService;
-		this.idObfuscator = idObfuscator;
 	}
 	
 	@ModelAttribute("review")
-	public Review loadReviewWithParkid(@PathVariable("parkId") String parkId) {
+	public Review loadReviewWithParkId(@PathVariable("parkId") String parkId) {
 		Review review = new Review();
-		Park park = parkService.getById((int) idObfuscator.decode(parkId)[0]);
+		Park park = parkService.getById(Integer.parseInt(parkId));
 		park.addReview(review);
 		return review;
 	}
