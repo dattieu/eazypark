@@ -18,6 +18,7 @@ import prototype.model.Coordinate;
 import prototype.model.Park;
 import prototype.model.Payment;
 import prototype.model.Profile;
+import prototype.model.Review;
 import prototype.model.Role;
 import prototype.model.User;
 import prototype.model.Vehicle;
@@ -42,20 +43,22 @@ public class Testing {
 //		// Test Model objects
 //		User user = new User();
 //		Profile profile = new Profile("user.png");
-		Payment payment = new Payment("prepaid", new BigDecimal(100));
+//		Payment payment = new Payment("prepaid", new BigDecimal(100));
 //		Vehicle vehicle = new Vehicle();
 //		vehicle.setPayment(payment);
 //		Park park = new Park();
 //		park.setCapacity(0);
 //		BigDecimal fee = new BigDecimal(5);
 //		Coordinate coords = new Coordinate(1.0, 2.0);
-//		
-//		try {
-//			System.out.println(JsonMapper.convertObjectToJson(payment));
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		
+		Review review = new Review(4, "Some description about this park");
+	
+		try {
+			System.out.println(JsonMapper.convertObjectToJson(review));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 //		Path src = Paths.get("E:/workspace", "dat.txt");
 //		Path dest = Paths.get("E:/workspace/", "test2.txt");
@@ -67,12 +70,12 @@ public class Testing {
 //			e.printStackTrace();
 //		}
 		
-		Hashids hashids = new Hashids("salt", 4);
-		String hash = hashids.encode(1);
-		long[] numbers = hashids.decode(hash);
-		System.out.println(hash);
-		
-		System.out.println(numbers[0]);
+//		Hashids hashids = new Hashids("salt", 4);
+//		String hash = hashids.encode(1);
+//		long[] numbers = hashids.decode(hash);
+//		System.out.println(hash);
+//		
+//		System.out.println(numbers[0]);
 	}
 	
 }

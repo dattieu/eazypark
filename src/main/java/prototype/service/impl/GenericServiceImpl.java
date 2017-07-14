@@ -11,7 +11,7 @@ import prototype.service.GenericService;
 
 @Service("genericService")
 public class GenericServiceImpl<T, V> implements GenericService<T, V> {
-
+	
 	private GenericDao<T, V> genericDao;
 	 
 	public GenericServiceImpl() {}

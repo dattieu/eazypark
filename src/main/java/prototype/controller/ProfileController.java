@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import prototype.constant.Constant;
@@ -32,7 +32,7 @@ public class ProfileController {
 		this.photoValidator = photoValidator;
 	}
 	
-	@PostMapping(PROFILE_PHOTO)
+	@PutMapping(PROFILE_PHOTO)
 	public void changeProfilePhoto(@PathVariable(value = "userId") String profileId, 
 			@Valid @ModelAttribute("photo") FileModel photoFileModel, BindingResult result) throws IOException, FileUploadException {	
 		
