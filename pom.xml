@@ -10,6 +10,8 @@
   
   <!--  Internal POM properties -->
   <properties>
+  	<springfox-swagger2.version>2.6.1</springfox-swagger2.version>
+  	<springfox-swagger2-ui.version>2.4.0</springfox-swagger2-ui.version>
   	<jsonwebtoken.version>0.7.0</jsonwebtoken.version>
   	<hashId.version>1.0.2</hashId.version>
  	<junit.version>4.12</junit.version>
@@ -27,6 +29,18 @@
   </properties>
   
   <dependencies>
+  
+  	<!-- Springfox Swagger -->
+  	<dependency>
+	    <groupId>io.springfox</groupId>
+	    <artifactId>springfox-swagger2</artifactId>
+	    <version>${springfox-swagger2.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>io.springfox</groupId>
+	    <artifactId>springfox-swagger-ui</artifactId>
+	    <version>${springfox-swagger2-ui.version}</version>
+	</dependency>
   
   	<!-- JSON Web Token -->
   	<dependency>
