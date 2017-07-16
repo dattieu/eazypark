@@ -66,7 +66,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, String> implements
 	}
 	
 	private boolean existUser(User user) {
-		return userDao.getByKey("email", user.getEmail()) ==  null;
+		return userDao.getByKey("email", user.getEmail()) !=  null;
 	}
 
 }

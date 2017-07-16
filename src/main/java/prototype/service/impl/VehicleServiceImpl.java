@@ -32,7 +32,7 @@ public class VehicleServiceImpl extends GenericServiceImpl<Vehicle, String> impl
 	}
 	
 	private boolean existVehicle(Vehicle vehicle) {
-		return vehicleDao.getByKey("plateNumber", vehicle.getPlateNumber()) == null;
+		return vehicleDao.getByKey("plateNumber", vehicle.getPlateNumber()) != null;
 	}
 
 }
