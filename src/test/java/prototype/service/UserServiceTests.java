@@ -2,14 +2,19 @@ package prototype.service;
 
 import static org.mockito.Mockito.*;
 
+import javax.persistence.EntityExistsException;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,8 +24,12 @@ import prototype.service.impl.UserServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTests {
-
-	@Mock
+	
+	// If using @Mock, it would return null, because genericDao is the one that actually carry on the getByKey() (super class)
+	// If changing all the userDao in the Service code to genericDao, @Mock will work
+	// Due to the complex of the code of using generic DAO and generic Service, got to use @Spy to get the 
+	// real object and then mock the required behaviors from the super class (partial @Mock)
+	@Spy
 	private UserDaoImpl userDao;
 	
 	@Mock
@@ -29,18 +38,24 @@ public class UserServiceTests {
 	@InjectMocks
 	private UserServiceImpl userService;
 	
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+	
+	private User user = new User("admin@gmail.com", "admin123", null, null);
+	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		
+		// Mock data for database user
+		doReturn(user).when(userDao).getByKey(anyString(), anyString());
 	}
 	
-	// REVIEW Not Work! Mock returns null object! Why? unmockable when using GenericDao?
 	@Test
-	public void loginSuccessTest() {
-		
+	public void loginUserSuccessTest() {
 		// Given
-		User user = new User("admin@gmail.com", "admin123", null, null);
-		when(userDao.getByKey(eq("email"), eq("admin@gmail.com"))).thenReturn(user);
+		// Can not @Spy (due to passworkEncoder is just an interface), @Mock not work here?!
+		when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
 		
 		// When
 		Boolean loginResult = userService.login(user);
@@ -48,43 +63,17 @@ public class UserServiceTests {
 		// Then
 		assertEquals(true, loginResult);
 		verify(userDao, times(1)).getByKey("email", "admin@gmail.com");
-		
 	}
 	
-	// REVIEW Not Work! Mock returns null object! Why? unmockable when using GenericDao?
 	@Test
-	public void registerUserSuccessTest() {
-		
+	public void registerUserFailureTest() {
 		// Given
-		User user = new User("admin@gmail.com", "admin123", null, null);
-		when(userDao.getByKey(eq("email"), eq("admin@gmail.com"))).thenReturn(user);
 		when(passwordEncoder.encode(anyString())).thenReturn("xxxxxx");
 		doNothing().when(userDao).save(any(User.class));
 		
 		// When
+		exception.expect(EntityExistsException.class);
 		userService.register(user);
-		
-		// Then
-		verify(userDao, times(1)).save(any(User.class));
-		
-	}
-	
-	// TODO debugging why it fails when mocking through the service layer
-	@Test
-	public void debugMockitoTest() {
-		// Given
-		when(userDao.getByKey("email", "admin@gmail.com")).thenReturn(new User("admin@gmail.com", "admin123", null, null));
-		
-		// Work
-		User dbUser = userDao.getByKey("email", "admin@gmail.com");
-		verify(userDao, times(1)).getByKey("email", "admin@gmail.com");
-		assertNotNull(dbUser);
-		
-		// Not work! mock returns null when calling from service layer, why can't it mock?
-		Boolean loginResult = userService.login(new User("admin@gmail.com", "admin123", null, null));
-		verify(userDao, times(1)).getByKey("email", "admin@gmail.com");
-		assertEquals(true, loginResult);
-		
 	}
 	
 }
