@@ -1,0 +1,36 @@
+================================================================================
+===        		Eazy Park application - MySQL Configuration          ===
+================================================================================
+
+@author Dat Tieu
+
+--------------------------------------------------------------------------------
+
+1) Download and install the MySQL database (e.g., MySQL Community Server 5.1.x),
+   which can be found here: http://dev.mysql.com/downloads/.
+
+2) There are 3 files descibed as follow:
+* schema.sql		schema for the database (all the table definitions)
+* data.sql			seed data for the database
+* eazypark.sql		schema plus seed data
+
+=> Create the 'eazypark' database and user by executing the 'database/{schema,data,eazypark}.sql' scripts.
+
+--------------------------------------------------------------------------------
+
+Note: some basic commands:
+
+# Start MySQL server
+mysqld --console
+
+# Export to file (data only)
+mysqldump -u [user] -p[pass] --no-create-info mydb > mydb.sql
+
+# Export to file (schema only)
+mysqldump -u [user] -p[pass] --no-data mydb > mydb.sql
+
+# Dump all database (schema + data)
+mysqldump -u [user] -p[pass] mydb > mydb.sql
+
+# Import to database
+mysql -u [user] -p[pass] mydb < mydb.sql
