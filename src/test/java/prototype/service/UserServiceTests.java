@@ -1,10 +1,9 @@
 package prototype.service;
 
 import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
 import javax.persistence.EntityExistsException;
-
-import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Rule;
